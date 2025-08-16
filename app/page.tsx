@@ -1,103 +1,174 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import { motion, HTMLMotionProps } from "framer-motion";
+import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
+import ContactSection from "./ContactSection";
+import { ReactNode } from "react";
+import DashboardCard from "./DashboardCard";
+
+type MotionButtonProps = HTMLMotionProps<"button"> & {
+  children: ReactNode;
+};
+
+export function Button({ children, className = "", ...props }: MotionButtonProps) {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <motion.button
+      whileHover={{ scale: 1.05, boxShadow: "0px 8px 15px rgba(59,130,246,0.4)" }}
+      whileTap={{ scale: 0.95 }}
+      className={`px-6 py-3 rounded-2xl font-medium transition text-lg bg-blue-600 text-white hover:bg-blue-700 ${className}`}
+      {...props}
+    >
+      {children}
+    </motion.button>
+  );
+}
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+// Animated Project Card
+function ProjectCard({ title, description, github, link }: { title: string; description: string; github?: string; link?: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="relative w-full rounded-2xl shadow-2xl overflow-hidden bg-gradient-to-br from-gray-800 via-gray-900 to-black cursor-pointer hover:scale-105 transition-transform"
+    >
+      <div className="p-6 flex flex-col justify-between h-full z-10 relative">
+        <div>
+          <h3 className="text-2xl font-bold mb-2">{title}</h3>
+          <p className="text-gray-400 mb-4">{description}</p>
+        </div>
+        <div className="flex gap-4">
+          {github && (
+            <a href={github} target="_blank" className="flex items-center gap-2 text-blue-400 hover:underline">
+              <Github className="w-5 h-5" />
+            </a>
+          )}
+          {link && (
+            <a href={link} target="_blank" className="flex items-center gap-2 text-blue-400 hover:underline">
+              <ExternalLink className="w-5 h-5" />
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+// Skill Bubble with motion
+function SkillBubble({ skill, color }: { skill: string; color: string }) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.15, rotate: 5 }}
+      className="px-5 py-3 rounded-full font-semibold text-white shadow-lg cursor-pointer transition-transform"
+      style={{ backgroundColor: color }}
+    >
+      {skill}
+    </motion.div>
+  );
+}
+
+export default function Page() {
+  const skills = [
+    { name: "Java", color: "#1f6e5f" },
+    { name: "Kotlin", color: "#2563eb" },
+    { name: "Spring Boot", color: "#15803d" },
+    { name: "Spring Cloud", color: "#0d9488" },
+    { name: "GraphQL", color: "#3b82f6" },
+    { name: "PostgreSQL", color: "#0f766e" },
+    { name: "MongoDB", color: "#166534" },
+    { name: "Docker", color: "#0369a1" },
+    { name: "Azure", color: "#0284c7" },
+  ];
+
+  const projects = [
+    {
+      title: "Trading Intelligence Platform at Adus Technologies",
+      description: "Backend for crypto & forex signals with RabbitMQ, WebSockets, push notifications, Coinbase API integration, and community chat.",
+      link: "https://linkedin.com/in/marin-dulja",
+    },
+    {
+      title: "Tiger Project at Candidatis",
+      description: "Web Crawler for automating job ads extraction and processing",
+      link: "https://www.candidatis.net/crawler.html",
+    },
+    {
+      title: "Therapism",
+      description: "Mental health platform, built with Java, Spring Boot, PostgreSQL, and Spring AI.",
+      github: "https://github.com/freudmarin/Therapism",
+    },
+    {
+      title: "Quotes Social Network",
+      description: "Quote sharing platform with authentication, posting, commenting, and liking features.",
+      github: "https://github.com/freudmarin/QuotesSocialNetworkBE",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white scroll-smooth">
+      {/* Hero Section */}
+      <section className="flex flex-col items-center justify-center min-h-screen px-6 text-center relative overflow-hidden">
+        <motion.h1
+          initial={{ opacity: 0, y: -40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="text-5xl md:text-7xl font-bold"
+        >
+          Marin Dulja
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.8 }}
+          className="mt-4 text-xl md:text-2xl text-gray-300 z-10 max-w-2xl"
+        >
+          Backend Engineer specializing in Kotlin & Java, Cloud & Microservices. Skilled in building scalable, reliable distributed systems.
+        </motion.p>
+        <motion.div className="mt-8 flex gap-4 z-10">
+          <Button>Download CV</Button>
+        </motion.div>
+      </section>
+
+      <DashboardCard></DashboardCard>
+
+      {/* Skills Section */}
+      <section className="max-w-6xl mx-auto px-6 py-12">
+        <h2 className="text-4xl font-semibold mb-10 text-center">Skills</h2>
+        <motion.div className="flex flex-wrap justify-center gap-4">
+          {skills.map((skill, i) => (
+            <SkillBubble key={i} skill={skill.name} color={skill.color} />
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Projects Section */}
+      <section className="bg-gray-950 py-20 px-6">
+        <h2 className="text-4xl font-semibold mb-10 text-center">Projects</h2>
+        <div className="grid md:grid-cols-2 gap-10 max-w-6xl mx-auto">
+          {projects.map((project, i) => (
+            <ProjectCard key={i} {...project} />
+          ))}
+        </div>
+      </section>
+
+      {/* Certificates Section */}
+      <section className="py-20 px-6 max-w-6xl mx-auto text-center">
+        <h2 className="text-4xl font-semibold mb-10">Certificates</h2>
+        <div className="flex flex-wrap justify-center gap-6">
+          <a href="#" className="p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
+            Azure Developer Associate (AZ-204)
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
+          <a href="#" className="p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
+            Spring Boot Microservices (Udemy)
+          </a>
+          <a href="#" className="p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition">
+            Algorithms (Coursera)
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Contact Section */}
+      <ContactSection />
     </div>
   );
 }
