@@ -46,6 +46,15 @@ export default function Page() {
     <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-800 to-black text-white">
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center min-h-screen px-6 text-center relative overflow-hidden">
+ <motion.img
+  src="/profile.jpg"
+  alt="Marin Dulja"
+  className="w-48 h-48 md:w-56 md:h-56 rounded-full mb-10 shadow-lg object-cover border-2 border-blue-500"
+  initial={{ opacity: 0, scale: 0.95 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.8 }}
+  whileHover={{ scale: 1.02 }}
+/>
         <motion.h1
           initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
