@@ -4,7 +4,8 @@ import { Code, Briefcase, CheckCircle, Award } from "lucide-react";
 const stats = [
   { icon: <Briefcase />, value: "3+", label: "Years Experience" },
   { icon: <CheckCircle />, value: "7+", label: "Projects Completed" },
-  { icon: <Code />, value: "Java, Kotlin, Spring Boot", label: "Tech Stack" }
+  { icon: <Code />, value: "Java, Kotlin, Spring Boot", label: "Tech Stack" },
+  { icon: <Award />, value: "Freelancer", label: "Status" } 
 ];
 
 export default function DashboardCard() {
