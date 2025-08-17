@@ -63,8 +63,15 @@ export default function Page() {
           Experienced Backend Engineer specializing in Kotlin & Java, Cloud & Microservices.
         </motion.p>
         <div className="mt-8 flex gap-4 z-10">
+          <a
+         href="/Marin_Dulja_CV.pdf"
+        download="Marin_Dulja_CV.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+         >
           <Button>Download CV</Button>
-          <Button className="bg-gray-700 hover:bg-gray-600">Contact Me</Button>
+         </a>
+          
         </div>
       </section>
 
