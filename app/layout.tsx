@@ -13,9 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "My Portfolio",
+  title: "Portfolio",
   openGraph: {
-    title: "My Portfolio",
+    title: "Portfolio",
     url: "https://marindulja-portfolio.netlify.app/",
     images: ["/og-image.png"],
   },
