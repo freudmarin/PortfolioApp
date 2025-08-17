@@ -12,9 +12,13 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "Portfolio",
+export const metadata = {
+  title: "My Portfolio",
+  openGraph: {
+    title: "My Portfolio",
+    url: "https://marindulja-portfolio.netlify.app/",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
